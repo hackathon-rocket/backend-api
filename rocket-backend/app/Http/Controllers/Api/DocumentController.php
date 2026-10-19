@@ -4,17 +4,31 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Document;
+use App\Jobs\ProcessDocumentOcr;
 use Illuminate\Http\Request;
 
 class DocumentController extends Controller
 {
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        $document = Document::with(['pages', 'extractions'])->findOrFail($id);
+
+        return response()->json($document);
+    }
+    
     public function store(Request $request)
     {
         $request->validate([
             'file' => [
                 'required',
                 'file',
-                'mimes:pdf,doc,docx,txt',
+                'mimes:pdf,png,jpg,jpeg,tif,tiff,bmp,webp',
                 'max:20480', // 20MB
             ]
         ]);
@@ -32,6 +46,8 @@ class DocumentController extends Controller
             'status' => 'uploaded',
             'page_count' => null, // You can implement logic to determine the page count for supported file types
         ]);
+
+        ProcessDocumentOcr::dispatch((string) $document->id);
 
         return response()->json(
             [

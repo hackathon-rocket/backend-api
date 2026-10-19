@@ -44,6 +44,15 @@ return [
             'after_commit' => false,
         ],
 
+        'mongodb' => [
+            'driver' => 'mongodb',
+            'connection' => env('MONGODB_QUEUE_CONNECTION', 'mongodb'),
+            'table' => env('MONGODB_QUEUE_TABLE', 'jobs'),
+            'queue' => env('MONGODB_QUEUE', 'default'),
+            'retry_after' => (int) env('MONGODB_QUEUE_RETRY_AFTER', 360),
+            'after_commit' => false,
+        ],
+
         'beanstalkd' => [
             'driver' => 'beanstalkd',
             'host' => env('BEANSTALKD_QUEUE_HOST', 'localhost'),

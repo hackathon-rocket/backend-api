@@ -8,3 +8,4 @@ Route::post('/documents', [DocumentController::class, 'store']);
 
 
 
+Route::get('/documents/{id}', [DocumentController::class, 'show']);

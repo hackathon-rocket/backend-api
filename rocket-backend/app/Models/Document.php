@@ -17,7 +17,6 @@ class Document extends MongoModel
         'extracted_fields',
         'metadata',
         'error_message',
-
     ];
 
     protected $casts = [
@@ -28,6 +27,11 @@ class Document extends MongoModel
     public function pages()
     {
         return $this->hasMany(DocumentPage::class, 'document_id');
+    }
+
+    public function extractions()
+    {
+        return $this->hasMany(Extraction::class, 'document_id');
     }
 
 }

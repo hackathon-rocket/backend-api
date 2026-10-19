@@ -35,4 +35,10 @@ return [
         ],
     ],
 
+    'ocr' => [
+        'url' => env('OCR_API_URL', 'http://127.0.0.1:9010'),
+        'lang' => env('OCR_LANG', 'slk+eng'),
+        'timeout' => (int) env('OCR_TIMEOUT', 180),
+    ],
+
 ];
