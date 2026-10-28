@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Document;
 use App\Jobs\ProcessDocumentOcr;
 use Illuminate\Http\Request;
+use App\Http\Resources\DocumentResource;
 
 class DocumentController extends Controller
 {
@@ -17,9 +18,8 @@ class DocumentController extends Controller
      */
     public function show($id)
     {
-        $document = Document::with(['pages', 'extractions'])->findOrFail($id);
-
-        return response()->json($document);
+        $document = Document::with(['extractions'])->findOrFail($id);
+        return new DocumentResource($document);
     }
     
     public function store(Request $request)
