@@ -15,6 +15,7 @@ class Extraction extends MongoModel
         'text',
         'raw',
         'tables',
+        'result',
     ];
 
     public function document()

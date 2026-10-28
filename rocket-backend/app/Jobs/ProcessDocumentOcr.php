@@ -56,6 +56,7 @@ class ProcessDocumentOcr implements ShouldQueue
         ]);
 
         $document->update(['status' => 'ocr_completed', 'error_message' => null]);
+        ProcessDocumentExtraction::dispatch($this->documentId);
     }
 
     public function failed(Throwable $exception): void

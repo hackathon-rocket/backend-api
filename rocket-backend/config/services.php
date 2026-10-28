@@ -41,4 +41,10 @@ return [
         'timeout' => (int) env('OCR_TIMEOUT', 180),
     ],
 
+    'orchestrator' => [
+        'url' => env('ORCHESTRATOR_URL', 'http://127.0.0.1:8001'),
+        'token' => env('ORCHESTRATOR_TOKEN'),
+        'timeout' => (int) env('ORCHESTRATOR_TIMEOUT', 110),
+    ],
+
 ];
