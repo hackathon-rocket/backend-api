@@ -10,6 +10,27 @@ use App\Http\Resources\DocumentResource;
 
 class DocumentController extends Controller
 {
+    
+    /**
+     * Display a listing of the resource.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function index(Request $request)
+    {
+        $query = Document::query(); 
+
+        if ($status = $request->query('status')) {
+            $query->whereIn('status', Document::PUBLIC_STATUS_MAP[$status] ?? [$status]);
+        }
+
+
+        $documents = $query->with(['extractions'])->latest('created_at')->paginate(20);
+
+        return DocumentResource::collection($documents);
+    }
+
     /**
      * Display the specified resource.
      *
