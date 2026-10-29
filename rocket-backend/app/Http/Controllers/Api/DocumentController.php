@@ -26,7 +26,7 @@ class DocumentController extends Controller
         }
 
 
-        $documents = $query->with(['extractions'])->latest('created_at')->paginate(20);
+        $documents = $query->with(['extractions'])->latest('created_at')->paginate(50);
 
         return DocumentResource::collection($documents);
     }
