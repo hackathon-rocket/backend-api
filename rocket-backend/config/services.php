@@ -38,13 +38,13 @@ return [
     'ocr' => [
         'url' => env('OCR_API_URL', 'http://127.0.0.1:9010'),
         'lang' => env('OCR_LANG', 'slk+eng'),
-        'timeout' => (int) env('OCR_TIMEOUT'),
+        'timeout' => (int) env('OCR_TIMEOUT', 180),
     ],
 
     'orchestrator' => [
         'url' => env('ORCHESTRATOR_URL', 'http://127.0.0.1:8001'),
         'token' => env('ORCHESTRATOR_TOKEN'),
-        'timeout' => (int) env('ORCHESTRATOR_TIMEOUT'),
+        'timeout' => (int) env('ORCHESTRATOR_TIMEOUT', 110),
         'form_id' => env('ORCHESTRATOR_FORM_ID'),
         'mapping_id' => env('ORCHESTRATOR_MAPPING_ID'),
     ],

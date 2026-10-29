@@ -54,6 +54,12 @@ class DocumentResource extends JsonResource
                     'not_found' => $counts['not_found'] ?? 0,
                 ]
             ] : null,
+
+            'confirmed' => $this->confirmed_data ? [
+                'values' => $this->confirmed_data['values'] ?? [],
+                'tables' => $this->confirmed_data['tables'] ?? [],
+                'confirmed_at' => $this->confirmed_at,
+            ] : null,
         ];
     }
 
@@ -65,6 +71,7 @@ class DocumentResource extends JsonResource
             'ocr_completed', 'extracting' => ['processing', 'extraction'],
             'completed' => ['extracted', null],
             'failed', 'ocr_failed' => ['failed', null],
+            'confirmed' => ['confirmed', null],
             default => [$this->status, null],
         };
     }

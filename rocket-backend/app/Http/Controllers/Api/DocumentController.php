@@ -42,7 +42,38 @@ class DocumentController extends Controller
         $document = Document::with(['extractions'])->findOrFail($id);
         return new DocumentResource($document);
     }
-    
+
+    /**
+     * Confirm the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function confirm(Request $request, $id)
+    {
+        $document = Document::with(['extractions'])->findOrFail($id);
+        if (! in_array($document->status, ['completed', 'confirmed'])) {
+            return response()->json(['message' => 'Document is not in a confirmable state.'], 422);
+        }
+        $request->validate([
+            'values' => ['present', 'array'],
+            'tables' => ['present', 'array'],
+            'tables.*' => ['array'],
+        ]);
+
+        $document->update([
+            'confirmed_data' => [
+                'values' => $request->input('values'),
+                'tables' => $request->input('tables'),
+            ],
+            'confirmed_at' => now(),
+            'status' => 'confirmed',
+        ]);
+
+        return new DocumentResource($document);
+
+    }
+
     public function store(Request $request)
     {
         $request->validate([

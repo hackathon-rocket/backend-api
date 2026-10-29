@@ -12,6 +12,7 @@ class Document extends MongoModel
         'processing' => ['processing', 'ocr_completed', 'extracting'],
         'extracted'  => ['completed'],
         'failed'     => ['failed', 'ocr_failed'],
+        'confirmed'   => ['confirmed'],
     ];
     
 
@@ -26,11 +27,14 @@ class Document extends MongoModel
         'extracted_fields',
         'metadata',
         'error_message',
+        'confirmed_data',
+        'confirmed_at',
     ];
 
     protected $casts = [
         'file_size' => 'integer',
         'page_count' => 'integer',
+        'confirmed_at' => 'datetime',
     ];
 
     public function pages()
