@@ -55,6 +55,10 @@ class DocumentResource extends JsonResource
                 ]
             ] : null,
         ];
+    }
+
+    private function publicStatus(): array
+    {
         return match ($this->status) {
             'uploaded' => ['uploaded', null],
             'processing' => ['processing', 'ocr'],

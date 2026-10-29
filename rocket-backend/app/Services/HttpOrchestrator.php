@@ -11,8 +11,7 @@ class HttpOrchestrator implements Orchestrator
      */
     public function extract(string $documentId, string $ocrText, string $language = 'slk+eng'): array
     {
-        $response = Http::withToken(config('services.orchestrator.token'))->connectTimeout(3)->timeout(config('services.orchestrator.timeout'))->acceptJson()
-            ->post(config('services.orchestrator.url') . '/v1/analyze', [
+        $payload = [
                 'document_id' => $documentId,
                 'content' => [
                     'language' => $language,
@@ -20,8 +19,20 @@ class HttpOrchestrator implements Orchestrator
                         ['page' => null, 'text' => $ocrText],
                     ]
                 ]
-            ])
-            ->throw()->json();
-        return $response;
+            ];
+        if ($formId = config('services.orchestrator.form_id')) {
+            $payload['form'] = [
+                'id' => $formId,
+                'mapping_id' => config('services.orchestrator.mapping_id'),
+            ];
+        }
+        
+        return Http::withToken(config('services.orchestrator.token'))
+            ->connectTimeout(3)
+            ->timeout(config('services.orchestrator.timeout'))
+            ->acceptJson()
+            ->post(config('services.orchestrator.url') . '/v1/analyze', $payload)
+            ->throw()
+            ->json();
     }
 }
